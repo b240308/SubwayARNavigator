@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+	<!-- 인터넷 권한 -->
+	<uses-permission android:name="android.permission.INTERNET"/>
+
+	<!-- GPS 권한 -->
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+	<!-- 대략적인 위치 권한 -->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+	<application>
+		<meta-data
+			android:name="com.google.android.ar.API_KEY"
+			android:value="AIzaSyDEruxmZwM_g3KJx8zqigWhXYB-Q0mHH0M"
+			tools:replace="android:value"/>
+		<activity
+            android:name="com.unity3d.player.UnityPlayerActivity"
+            android:theme="@style/UnityThemeSelector">
+
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+
+			<meta-data
+                android:name="unityplayer.UnityActivity"
+                android:value="true" />
+		</activity>
+	</application>
+
+</manifest>
