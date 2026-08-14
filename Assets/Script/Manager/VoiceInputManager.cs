@@ -35,8 +35,8 @@ public class VoiceInputManager : MonoBehaviour
 
     private void Awake()    //b
     {
-        //if (Instance == null) Instance = this;
-        //else Destroy(gameObject);
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
 
         // 인스펙터 연결이 비어있다면 알아서 내 오브젝트에서 찾거나 없으면 생성함
         if (geocodingTest == null)
