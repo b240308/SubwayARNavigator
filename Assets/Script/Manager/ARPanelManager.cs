@@ -60,6 +60,9 @@ public class ARPanelManager : MonoBehaviour
         if (loadingCoroutine != null)
             StopCoroutine(loadingCoroutine);
 
+        // 로딩 시작 시 에러 메시지 초기화   //b
+        if (errorText != null) errorText.text = "";
+
         loadingCoroutine = StartCoroutine(LoadingAnim());
     }
 
@@ -83,6 +86,7 @@ public class ARPanelManager : MonoBehaviour
         }
     }
 
+    // 정상 데이터 출력 시 //b
     public void UpdatePanel(List<FacilityInfo> list)
     {
         StopLoading();
@@ -92,6 +96,9 @@ public class ARPanelManager : MonoBehaviour
             ShowError("시설 없음");
             return;
         }
+
+        // 정상 데이터가 돌아왔으므로 에러 텍스트는 숨김 (빈 문자열)    //b
+        if (errorText != null) errorText.text = "";
 
         string station = list[0].stationName;
         int exit = list[0].exitNumber;
@@ -106,23 +113,36 @@ public class ARPanelManager : MonoBehaviour
             if (f.facilityType == "TOI") toilets.Add(f.facilityName);
         }
 
-        titleText.text = $"{station} {exit}번 출구";
-        elevatorText.text = elv ? "엘리베이터 O" : "엘리베이터 X";
-        escalatorText.text = esc ? "에스컬레이터 O" : "에스컬레이터 X";
-        toiletText.text = toilets.Count > 0 ? toilets[0] : "화장실 없음";
+        // 정상 정보 입력
+        if (titleText != null) titleText.text = $"{station} {exit}번 출구";
+        if (elevatorText != null) elevatorText.text = elv ? "엘리베이터 O" : "엘리베이터 X";
+        if (escalatorText != null) escalatorText.text = esc ? "에스컬레이터 O" : "에스컬레이터 X";
+        if (toiletText != null) toiletText.text = toilets.Count > 0 ? toilets[0] : "화장실 없음";
+        if (congestionText != null) congestionText.text = "";
     }
 
     public void ShowError(string msg)
     {
-        errorText.text = msg;
+        // errorText.text = msg;    //d
+
+        // 에러가 났으므로 일반 시설 텍스트들은 전부 지움   //b
+        if (titleText != null) titleText.text = "";
+        if (elevatorText != null) elevatorText.text = "";
+        if (escalatorText != null) escalatorText.text = "";
+        if (toiletText != null) toiletText.text = "";
+        if (congestionText != null) congestionText.text = "";
+
+        // 에러 텍스트만 표시   //b
+        if (errorText != null) errorText.text = msg;
     }
 
     void ClearUI()
     {
-        titleText.text = "";
-        elevatorText.text = "";
-        escalatorText.text = "";
-        toiletText.text = "";
-        congestionText.text = "";
+        if (titleText != null) titleText.text = "";
+        if (elevatorText != null) elevatorText.text = "";
+        if (escalatorText != null) escalatorText.text = "";
+        if (toiletText != null) toiletText.text = "";
+        if (congestionText != null) congestionText.text = "";
+        if (errorText != null) errorText.text = "";
     }
 }
