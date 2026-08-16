@@ -24,6 +24,9 @@ public class VoiceInputManager : MonoBehaviour
     private const float SILENCE_THRESHOLD_TIME = 2f;
     private const float SILENCE_THRESHOLD_VOLUME = 0.02f;
 
+    // 녹음 실패 시 최대 재시도 횟수 (무한 루프 방지) //b
+    private const int MAX_RECORD_RETRIES = 10;  // 최대 10회까지 녹음 가능 
+
     public TMP_Text statusText;
 
     private bool isRecording = false;
@@ -97,7 +100,6 @@ public class VoiceInputManager : MonoBehaviour
                 AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
                 AndroidJavaObject tts = new AndroidJavaObject("android.speech.tts.TextToSpeech", currentActivity, new TTSListener());
                 
-                // 한국어 설정 및 음성 출력
                 tts.Call<int>("setLanguage", new AndroidJavaObject("java.util.Locale", "KOREA"));
                 tts.Call<int>("speak", textToSpeak, 0, null, "ARNavi_TTS");
             }
@@ -158,7 +160,7 @@ public class VoiceInputManager : MonoBehaviour
         }
 #endif
 
-        UpdateStatus("듣는 중...", Color.cyan);
+        // UpdateStatus("듣는 중...", Color.cyan); //b
 
         yield return StartCoroutine(RecordAndProcess());
     }
@@ -171,11 +173,41 @@ public class VoiceInputManager : MonoBehaviour
         isRecording = true;
         sttSuccess = false;
 
-        yield return StartCoroutine(RecordAudio());
+        // yield return StartCoroutine(RecordAudio());
 
+        // if (recordedClip == null)
+        // {
+        //    UpdateStatus("녹음 실패", Color.red);
+        //    isRecording = false;
+        //    yield break;
+        //}
+
+        int recordRetryCount = 0;   //b
+
+        // 녹음 실패 시 다시 "듣는 중..."으로 전환 후 재녹음 시도   //b
+        while (recordRetryCount < MAX_RECORD_RETRIES)   
+        {
+            UpdateStatus("듣는 중...", Color.cyan);
+
+            yield return StartCoroutine(RecordAudio());
+
+            if (recordedClip != null)
+            {
+                // 녹음 성공 시 루프 탈출 후 진행
+                break;
+            }
+
+            recordRetryCount++;
+            Debug.LogWarning($"[VoiceInputManager] 녹음 실패 ({recordRetryCount}/{MAX_RECORD_RETRIES}). 재시도합니다.");
+
+            // 재시도 간격 보장 (0.5초 대기)
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // 최대 재시도 후에도 실패한 경우 처리
         if (recordedClip == null)
         {
-            UpdateStatus("녹음 실패", Color.red);
+            UpdateStatus("녹음 실패 (재시도 초과)", Color.red);
             isRecording = false;
             yield break;
         }
@@ -364,6 +396,9 @@ public class VoiceInputManager : MonoBehaviour
                 DebugUI.Instance?.Log("STATION PARSE FAIL");
                 return;
             }
+
+            // 역명 파싱 성공시 Voice 패널을 숨겨 AR 화면 전환  //b
+            ARPanelManager.Instance?.HideVoicePanel();
 
             // 편의시설 - 출구 번호 있을 때만
             if (exit > 0)

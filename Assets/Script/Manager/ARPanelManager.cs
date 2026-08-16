@@ -10,6 +10,7 @@ public class ARPanelManager : MonoBehaviour
     [Header("UI Panels")]   //b
     public GameObject Canvas_Start; //b //시작 패널 Canvas
     public GameObject Canvas_Voice; //b //음성 입력 패널 Canvas
+    public GameObject Canvas_Arrived; //b   // [추가] 도착 완료 패널 Canvas
 
     [Header("Facility UI Text")]    //b
     public TMP_Text titleText;
@@ -42,7 +43,7 @@ public class ARPanelManager : MonoBehaviour
         if (Canvas_Voice != null) Canvas_Voice.SetActive(false);
 
         // 2. StartPanel 3초간 유지
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(5.0f);
 
         // 3. StartPanel 끄고 VoicePanel 켜기
         if (Canvas_Start != null) Canvas_Start.SetActive(false);
@@ -52,6 +53,35 @@ public class ARPanelManager : MonoBehaviour
         if (VoiceInputManager.Instance != null)
         {
             VoiceInputManager.Instance.StartVoiceGuidanceAndRecord();
+        }
+    }
+
+    // 길 안내 답계 진입 시 UI 패널을 가려주는 메서드 //b
+    public void HideVoicePanel()
+    {
+        if (Canvas_Voice != null) Canvas_Voice.SetActive(false);
+        if (Canvas_Start != null) Canvas_Start.SetActive(false);
+    }
+
+    // 도착 시 외부(경로/앵커 스크립트)에서 호출할 함수
+    public void OnArrived()
+    {
+        StartCoroutine(ArrivedRoutine());
+    }
+
+    // 3초 대기 후 Canvas_Arrived 켜는 코루틴
+    private IEnumerator ArrivedRoutine()
+    {
+        // 1. (필요 시) 기존 안내 패널이나 Voice 패널 끄기
+        HideVoicePanel();
+
+        // 2. 3초 동안 대기 (음성 안내 재생 & "목적지에 도착했습니다" 문구가 보이는 시간)
+        yield return new WaitForSeconds(3.0f);
+
+        // 3. Canvas_Arrived 패널 활성화
+        if (Canvas_Arrived != null)
+        {
+            Canvas_Arrived.SetActive(true);
         }
     }
 

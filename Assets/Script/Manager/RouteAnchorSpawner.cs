@@ -20,6 +20,10 @@ public class RouteAnchorSpawner : MonoBehaviour
     public float refreshInterval = 1.0f;  // 좌표 재변환 주기 (sec)
     public float groundOffset = 1.4f;      // 카메라(눈높이) → 지면 보정 (m)
 
+    [Header("Color Settings")]  // 화살표 컬러 설정 #88F8A1   //b
+    [SerializeField]
+    private Color routeColor = new Color(0.533f, 0.973f, 0.631f, 1.0f); // #88F8A1 (기본값)
+
     private List<Vector2> cachedRoute;     // x=latitude, y=longitude
 
     private bool isARReady = false;
@@ -27,6 +31,17 @@ public class RouteAnchorSpawner : MonoBehaviour
     private bool isRunning = false;
 
     private Coroutine routeCo;
+
+    void Awake()    //b
+    {
+        // Hex Color #88F8A1 파싱 및 LineRenderer 색상 세팅
+        if (ColorUtility.TryParseHtmlString("#88F8A1", out Color parsedColor))
+        {
+            routeColor = parsedColor;
+        }
+
+        ApplyLineRendererColor();
+    }
 
     void OnEnable()
     {
@@ -38,6 +53,32 @@ public class RouteAnchorSpawner : MonoBehaviour
         ARStateManager.OnARReady -= OnARReady;
         if (routeCo != null) StopCoroutine(routeCo);
         isRunning = false;
+    }
+
+    /// <summary>
+    /// LineRenderer 색상을 #88F8A1(Unlit 쨍한 색감)으로 세팅합니다.
+    /// </summary>
+    private void ApplyLineRendererColor()   //b
+    {
+        if (lineRenderer == null) return;
+
+        // 조명 영향을 받아 탁해지는 현상을 방지하기 위해 Unlit/Sprites 머티리얼 보정
+        if (lineRenderer.sharedMaterial == null || lineRenderer.sharedMaterial.HasProperty("_Color"))
+        {
+            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        }
+
+        // LineRenderer 전체 단색 설정
+        lineRenderer.startColor = routeColor;
+        lineRenderer.endColor = routeColor;
+
+        // Gradient 적용
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(routeColor, 0.0f), new GradientColorKey(routeColor, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(routeColor.a, 0.0f), new GradientAlphaKey(routeColor.a, 1.0f) }
+        );
+        lineRenderer.colorGradient = gradient;
     }
 
     public void SpawnRoute(List<Vector2> routePoints)
@@ -52,6 +93,12 @@ public class RouteAnchorSpawner : MonoBehaviour
 
         cachedRoute = new List<Vector2>(routePoints);
         hasRoute = true;
+
+        // [방향 안내 UI 연결] 경로를 받으면 RouteDirectionUI에도 경로 전달   //b
+        if (RouteDirectionUI.Instance != null)
+        {
+            RouteDirectionUI.Instance.StartGuidance(cachedRoute);
+        }
 
         TryStart();
     }
@@ -75,6 +122,9 @@ public class RouteAnchorSpawner : MonoBehaviour
         if (earthManager == null) { DebugUI.Instance?.Log("ERROR : earthManager NULL"); return; }
         if (lineRenderer == null) { DebugUI.Instance?.Log("ERROR : lineRenderer NULL"); return; }
         if (cachedRoute == null) { DebugUI.Instance?.Log("ERROR : cachedRoute NULL"); return; }
+
+        // 색상 확실하게 적용 재확인   //b
+        ApplyLineRendererColor();
 
         routeCo = StartCoroutine(RunRouteLine());
     }
