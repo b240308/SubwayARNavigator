@@ -143,7 +143,13 @@ public class RouteDirectionUI : MonoBehaviour
                 TriggerGuidance(NavigationDirection.Arrived, 0);
                 isNavigating = false;
 
-                // 2. ARPanelManager에게 알려서 3초 뒤 'Canvas_Arrived 켜기
+                // 2. 마지막 판넬의 텍스트들(역/출구 이름, 총 이동거리, 소요시간)을 최종 계산해 업데이트
+                if (ArrivalPanelUI.Instance != null)
+                {
+                    ArrivalPanelUI.Instance.UpdateArrivalUI();
+                }
+
+                // 3. ARPanelManager에게 알려서 3초 뒤 'Canvas_Arrived 켜기
                 if (ARPanelManager.Instance != null)
                 {
                     ARPanelManager.Instance.OnArrived();

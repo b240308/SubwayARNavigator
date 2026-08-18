@@ -15,7 +15,15 @@ using UnityEngine.Android;
 public class VoiceInputManager : MonoBehaviour
 {
     public static VoiceInputManager Instance;   //b //ARPanelManager에서 접근하기 위한 싱글톤
-    
+
+    [Header("Audio Settings")]  //b
+    public AudioSource audioSource;       // 음성 안내 출력용 AudioSource
+    public AudioClip guidanceClip;        // "목적지를 말씀해주세요" 음성 클립 (.wav / .mp3)
+
+    [Header("UI & Dependencies")]   //b
+    public TMP_Text statusText;
+    public NaverGeocodingTest geocodingTest;
+
     private AudioClip recordedClip;
 
     private const int SAMPLE_RATE = 16000;
@@ -27,19 +35,29 @@ public class VoiceInputManager : MonoBehaviour
     // 녹음 실패 시 최대 재시도 횟수 (무한 루프 방지) //b
     private const int MAX_RECORD_RETRIES = 10;  // 최대 10회까지 녹음 가능 
 
-    public TMP_Text statusText;
+    // public TMP_Text statusText;  // 원래 코드
 
     private bool isRecording = false;
     private bool sttSuccess = false;
 
     private float[] audioSamples;
 
-    public NaverGeocodingTest geocodingTest;
+    // public NaverGeocodingTest geocodingTest; // 원래 코드
 
     private void Awake()    //b
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        // 오디오 소스가 별도로 할당되어 있지 않다면 컴포넌트 자동 찾기/추가    //b
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+            }
+        }
 
         // 인스펙터 연결이 비어있다면 알아서 내 오브젝트에서 찾거나 없으면 생성함
         if (geocodingTest == null)
@@ -72,52 +90,30 @@ public class VoiceInputManager : MonoBehaviour
     // ==============================
     public void StartVoiceGuidanceAndRecord()
     {
-        StartCoroutine(SpeakAndRecordSequence());
+        StartCoroutine(GuidanceAndRecordRoutine());
     }
 
-    private IEnumerator SpeakAndRecordSequence()
+    private IEnumerator GuidanceAndRecordRoutine()
     {
         UpdateStatus("목적지를 말씀해주세요!", Color.white);
 
-        // 안드로이드 TTS 재생
-        SpeakAndroidTTS("목적지를 말씀해주세요!");
+        // 1. AudioSource와 guidanceClip을 이용해 음성 재생
+        if (audioSource != null && guidanceClip != null)
+        {
+            audioSource.clip = guidanceClip;
+            audioSource.Play();
 
-        // TTS 오디오 출력이 완료될 때까지 대기 (약 2초 내외)
-        yield return new WaitForSeconds(2.2f);
+            // 2. 음성 파일 길이만큼 정확히 대기
+            yield return new WaitForSeconds(guidanceClip.length);
+        }
+        else
+        {
+            Debug.LogWarning("[VoiceInputManager] AudioSource 또는 guidanceClip이 할당되지 않았습니다. 대기 없이 진행합니다.");
+            yield return new WaitForSeconds(1.0f);
+        }
 
-        // 기존 마이크 버튼 클릭 시 실행되던 권한 체크 및 녹음 프로세스 동작
+        // 3. 음성이 끝나면 마이크 권한 확인 및 녹음 프로세스 시작
         MicButtonClicked();
-    }
-
-    // 안드로이드 네이티브 TTS 호출 메서드
-    private void SpeakAndroidTTS(string textToSpeak)
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        try
-        {
-            using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-            {
-                AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-                AndroidJavaObject tts = new AndroidJavaObject("android.speech.tts.TextToSpeech", currentActivity, new TTSListener());
-                
-                tts.Call<int>("setLanguage", new AndroidJavaObject("java.util.Locale", "KOREA"));
-                tts.Call<int>("speak", textToSpeak, 0, null, "ARNavi_TTS");
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("[TTS] 음성 출력 실패: " + e.Message);
-        }
-#else
-        Debug.Log($"[TTS-Editor Test] 음성 출력: {textToSpeak}");
-#endif
-    }
-
-    // 안드로이드 TTS Listener 구현용 내부 클래스
-    private class TTSListener : AndroidJavaProxy
-    {
-        public TTSListener() : base("android.speech.tts.TextToSpeech$OnInitListener") { }
-        public void onInit(int status) { }
     }
 
     // ==============================
@@ -371,7 +367,7 @@ public class VoiceInputManager : MonoBehaviour
     }
 
     // ==============================
-    // 응답 처리
+    // 응답 처리 및 파싱
     // ==============================
     private void ProcessSTTResponse(string json)
     {
@@ -390,6 +386,9 @@ public class VoiceInputManager : MonoBehaviour
             UpdateStatus(text, Color.green);
 
             var (station, exit) = SubwayQueryParser.Parse(text);
+
+            // 인식된 역 이름과 출구 번호를 ArrivalPanelUI에 넘겨서 저장  //b
+            ArrivalPanelUI.Instance?.SetDestinationInfo(station, exit);
 
             if (string.IsNullOrEmpty(station))
             {
@@ -423,7 +422,7 @@ public class VoiceInputManager : MonoBehaviour
     }
 
     // ==============================
-    // UI
+    // UI 업데이트
     // ==============================
     private void UpdateStatus(string msg, Color color)
     {
@@ -434,7 +433,7 @@ public class VoiceInputManager : MonoBehaviour
     }
 
     // ==============================
-    // 메모리 정리
+    // 메모리 정리 및 리소스 관리
     // ==============================
     private void CleanupAudioClip()
     {
