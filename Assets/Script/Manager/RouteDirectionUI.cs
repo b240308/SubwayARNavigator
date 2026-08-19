@@ -51,6 +51,9 @@ public class RouteDirectionUI : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+
+        // 에디터에 남아있던 테스트용 텍스트 제거 - 실제 안내가 나오기 전까진 비워둠
+        if (guidanceText != null) guidanceText.text = string.Empty;
     }
 
     public void StartGuidance(List<Vector2> points)
@@ -65,6 +68,9 @@ public class RouteDirectionUI : MonoBehaviour
         lastAnnouncedDirection = NavigationDirection.None;
         lastAnnouncedIndex = -1;
         isOffRouteAnnounced = false;
+
+        // 이전 안내 텍스트가 남아있지 않도록 초기화 (AR Tracking 확보 전까지는 비워둠)
+        if (guidanceText != null) guidanceText.text = string.Empty;
 
         StartCoroutine(GuidanceLoop());
     }

@@ -52,6 +52,8 @@ public class FacilityDataService : MonoBehaviour
 
             string response = request.downloadHandler.text;
 
+            Debug.Log($"[FacilityDataService] RAW RESPONSE ({response.Length} chars):\n{response}");
+
             ParseFacilityData(response, station, exitNumber);
         }
     }
@@ -65,11 +67,16 @@ public class FacilityDataService : MonoBehaviour
 
             XmlNodeList facilityNodes = xmlDoc.GetElementsByTagName("fcltNm");
 
+            Debug.Log($"[FacilityDataService] fcltNm 노드 개수: {facilityNodes.Count}");
+
             List<FacilityInfo> facilityList = new List<FacilityInfo>();
 
             for (int i = 0; i < facilityNodes.Count; i++)
             {
                 string facilityName = facilityNodes[i].InnerText;
+
+                Debug.Log($"[FacilityDataService] fcltNm[{i}] = '{facilityName}' " +
+                    $"(station 포함={facilityName.Contains(station)}, {exitNumber}번 포함={facilityName.Contains($"{exitNumber}번")})");
 
                 if (!facilityName.Contains(station)) continue;
                 if (!facilityName.Contains($"{exitNumber}번")) continue;
@@ -92,6 +99,8 @@ public class FacilityDataService : MonoBehaviour
 
                 facilityList.Add(info);
             }
+
+            Debug.Log($"[FacilityDataService] 필터링 후 facilityList 개수: {facilityList.Count}");
 
             ARPanelManager.Instance?.UpdatePanel(facilityList);
         }

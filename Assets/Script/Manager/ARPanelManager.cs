@@ -93,7 +93,10 @@ public class ARPanelManager : MonoBehaviour
             StopCoroutine(loadingCoroutine);
 
         // 로딩 시작 시 에러 메시지 초기화   //b
-        if (errorText != null) errorText.text = "";
+        if (errorText != null)
+        {
+            errorText.text = "";
+        }
 
         loadingCoroutine = StartCoroutine(LoadingAnim());
     }
@@ -165,7 +168,11 @@ public class ARPanelManager : MonoBehaviour
         //if (congestionText != null) congestionText.text = "";
 
         // 에러 텍스트만 표시   //b
-        if (errorText != null) errorText.text = msg;
+        if (errorText != null)
+        {
+            errorText.gameObject.SetActive(true);
+            errorText.text = msg;
+        }
     }
 
     void ClearUI()
@@ -175,7 +182,11 @@ public class ARPanelManager : MonoBehaviour
         if (escalatorText != null) escalatorText.text = "";
         if (toiletText != null) toiletText.text = "";
         //if (congestionText != null) congestionText.text = "";
-        if (errorText != null) errorText.text = "";
+        if (errorText != null)
+        {
+            errorText.text = "";
+            errorText.gameObject.SetActive(false);
+        }
     }
 
     public void ShowCanvas_Facilities(bool isActive)

@@ -31,6 +31,7 @@ public static class SubwayQueryParser
             string station = matchFull.Groups[1].Value.Trim().Replace("역", "").Trim();
             int.TryParse(matchFull.Groups[2].Value, out int exit);
             Debug.Log($"[Parser 성공] station={station}, exit={exit}");
+
             return (station, exit);
         }
 
