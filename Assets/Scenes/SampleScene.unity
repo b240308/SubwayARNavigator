@@ -2787,7 +2787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 988798716}
-  guidanceClip: {fileID: 0}
+  guidanceClip: {fileID: 8300000, guid: db17964cb12dfe247b869cdf14140b6d, type: 3}
   statusText: {fileID: 1444599887}
   geocodingTest: {fileID: 988798715}
 --- !u!4 &988798711
@@ -2848,7 +2848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b389a8f122e92540bf559ec86ec2565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tmapApiKey: 
+  tmapApiKey: HcVrKCi6Fw8E6hatN7VpD2on7JGAcRwT9KparA1h
   routeSpawner: {fileID: 988798713}
 --- !u!114 &988798715
 MonoBehaviour:
@@ -4876,7 +4876,6 @@ MonoBehaviour:
   elevatorText: {fileID: 608786188}
   escalatorText: {fileID: 1251364169}
   toiletText: {fileID: 1713274044}
-  congestionText: {fileID: 104795762}
   errorText: {fileID: 37820681}
 --- !u!4 &1897303187
 Transform:
@@ -5060,11 +5059,11 @@ MonoBehaviour:
   earthManager: {fileID: 988798712}
   guidanceText: {fileID: 392407497}
   audioSource: {fileID: 1959081717}
-  clipStraight: {fileID: 0}
-  clipTurnLeft: {fileID: 0}
-  clipTurnRight: {fileID: 0}
-  clipOffRoute: {fileID: 0}
-  clipArrived: {fileID: 0}
+  clipStraight: {fileID: 8300000, guid: 2ce2c148a873b9c4fb2a9bf738ef5ef0, type: 3}
+  clipTurnLeft: {fileID: 8300000, guid: 39a89d3ff7e86e2429f8d3215149252d, type: 3}
+  clipTurnRight: {fileID: 8300000, guid: 136c4274992e1334a9e7d97bccefd3e7, type: 3}
+  clipOffRoute: {fileID: 8300000, guid: c03d21606530a3d41b3c6d22a9a3206b, type: 3}
+  clipArrived: {fileID: 8300000, guid: 4f6916123fabae34bafe6caa51f7d80c, type: 3}
   triggerDistance: 8
   nodePassDistance: 2.5
   offRouteThreshold: 15
