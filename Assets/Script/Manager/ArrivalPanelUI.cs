@@ -5,15 +5,15 @@ public class ArrivalPanelUI : MonoBehaviour
 {
     public static ArrivalPanelUI Instance;
 
-    [Header("UI TextMeshPro ¿¬°á")]
-    public TMP_Text stationInfoText; // 1. ¿ª/Ãâ±¸ Á¤º¸ ÅØ½ºÆ® (¿¹: ¼­¿ï¿ª 3¹ø Ãâ±¸)
-    public TMP_Text distanceText;    // 2. ÃÑ ÀÌµ¿ °Å¸® ÅØ½ºÆ® (¿¹: 124m)
-    public TMP_Text timeText;        // 3. ¼Ò¿ä ½Ã°£ ÅØ½ºÆ® (¿¹: 2ºĞ 15ÃÊ / 1½Ã°£ 5ºĞ)
+    [Header("UI TextMeshPro ì—°ê²°")]
+    public TMP_Text stationInfoText; // 1. ì—­/ì¶œêµ¬ ì •ë³´ í…ìŠ¤íŠ¸ (ì˜ˆ: ì„œìš¸ì—­ 3ë²ˆ ì¶œêµ¬)
+    public TMP_Text distanceText;    // 2. ì´ ì´ë™ ê±°ë¦¬ í…ìŠ¤íŠ¸ (ì˜ˆ: 124m)
+    public TMP_Text timeText;        // 3. ì†Œìš” ì‹œê°„ í…ìŠ¤íŠ¸ (ì˜ˆ: 2ë¶„ 15ì´ˆ / 1ì‹œê°„ 5ë¶„)
 
-    [Header("Ä«¸Ş¶ó (¹ÌÇÒ´ç ½Ã MainCamera »ç¿ë)")]
+    [Header("ì¹´ë©”ë¼ (ë¯¸í• ë‹¹ ì‹œ MainCamera ì‚¬ìš©)")]
     public Transform cameraTransform;
 
-    private string currentStationInfo = "¸ñÀûÁö Á¤º¸ ¾øÀ½";
+    private string currentStationInfo = "ëª©ì ì§€ ì •ë³´ ì—†ìŒ";
     private Vector3 lastPosition;
     private float totalDistance = 0f;
     private float startTime;
@@ -27,7 +27,7 @@ public class ArrivalPanelUI : MonoBehaviour
 
     private void OnEnable()
     {
-        // ARÀÌ ½ÃÀÛµÇ´Â ½ÃÁ¡À» °¨ÁöÇÏ¿© ÃøÁ¤ ½ÃÀÛ
+        // ARì´ ì‹œì‘ë˜ëŠ” ì‹œì ì„ ê°ì§€í•˜ì—¬ ì¸¡ì • ì‹œì‘
         ARStateManager.OnARReady += StartTracking;
     }
 
@@ -43,27 +43,27 @@ public class ArrivalPanelUI : MonoBehaviour
             cameraTransform = Camera.main.transform;
         }
 
-        // ¹é¾÷¿ë ÀÚµ¿ ½ÃÀÛ
+        // ë°±ì—…ìš© ìë™ ì‹œì‘
         StartTracking();
     }
 
     /// <summary>
-    /// VoiceInputManager µî ¿ÜºÎ¿¡¼­ ÆÄ½ÌµÈ ¿ª/Ãâ±¸ ÅØ½ºÆ® Àü´Ş¹Ş¾Æ ÀúÀå
+    /// VoiceInputManager ë“± ì™¸ë¶€ì—ì„œ íŒŒì‹±ëœ ì—­/ì¶œêµ¬ í…ìŠ¤íŠ¸ ì „ë‹¬ë°›ì•„ ì €ì¥
     /// </summary>
     public void SetDestinationInfo(string station, int exit)
     {
         if (exit > 0)
         {
-            currentStationInfo = $"{station}¿ª {exit}¹ø Ãâ±¸";
+            currentStationInfo = $"{station}ì—­ {exit}ë²ˆ ì¶œêµ¬";
         }
         else
         {
-            currentStationInfo = $"{station}¿ª";
+            currentStationInfo = $"{station}ì—­";
         }
     }
 
     /// <summary>
-    /// ÃßÀû ¹× ½Ã°£/°Å¸® ÃøÁ¤ ½ÃÀÛ
+    /// ì¶”ì  ë° ì‹œê°„/ê±°ë¦¬ ì¸¡ì • ì‹œì‘
     /// </summary>
     public void StartTracking()
     {
@@ -80,7 +80,7 @@ public class ArrivalPanelUI : MonoBehaviour
     {
         if (!isTracking || cameraTransform == null) return;
 
-        // ÇÁ·¹ÀÓ °£ ÀÌµ¿ °Å¸® °è»ê ¹× ¹Ì¼¼ÇÑ ¼¾¼­ ¶³¸² ¹æÁö(1cm ÀÌ»ó ¿òÁ÷ÀÏ ¶§¸¸)
+        // í”„ë ˆì„ ê°„ ì´ë™ ê±°ë¦¬ ê³„ì‚° ë° ë¯¸ì„¸í•œ ì„¼ì„œ ë–¨ë¦¼ ë°©ì§€(1cm ì´ìƒ ì›€ì§ì¼ ë•Œë§Œ)
         float moveDelta = Vector3.Distance(cameraTransform.position, lastPosition);
         if (moveDelta > 0.01f)
         {
@@ -90,26 +90,26 @@ public class ArrivalPanelUI : MonoBehaviour
     }
 
     /// <summary>
-    /// ¸¶Áö¸· ÆÇ³ÚÀ» È°¼ºÈ­ÇÏ±â Á÷Àü¿¡ È£ÃâÇÏ¿© TextMeshPro ³»¿ë ¾÷µ¥ÀÌÆ®
+    /// ë§ˆì§€ë§‰ íŒë„¬ì„ í™œì„±í™”í•˜ê¸° ì§ì „ì— í˜¸ì¶œí•˜ì—¬ TextMeshPro ë‚´ìš© ì—…ë°ì´íŠ¸
     /// </summary>
     public void UpdateArrivalUI()
     {
-        isTracking = false; // ÃßÀû ÁßÁö
+        isTracking = false; // ì¶”ì  ì¤‘ì§€
         float elapsedTime = Time.time - startTime;
 
-        // 1. ¿ª & Ãâ±¸ ÅØ½ºÆ®
+        // 1. ì—­ & ì¶œêµ¬ í…ìŠ¤íŠ¸
         if (stationInfoText != null)
         {
             stationInfoText.text = currentStationInfo;
         }
 
-        // 2. ÃÑ ÀÌµ¿ °Å¸® (m ´ÜÀ§, Á¤¼ö Ç¥±â)
+        // 2. ì´ ì´ë™ ê±°ë¦¬ (m ë‹¨ìœ„, ì •ìˆ˜ í‘œê¸°)
         if (distanceText != null)
         {
             distanceText.text = $"{Mathf.RoundToInt(totalDistance)}m";
         }
 
-        // 3. ¼Ò¿ä ½Ã°£ (ÃÊ / ºĞ / ½Ã°£ Á¶°ÇºÎ Ç¥±â)
+        // 3. ì†Œìš” ì‹œê°„ (ì´ˆ / ë¶„ / ì‹œê°„ ì¡°ê±´ë¶€ í‘œê¸°)
         if (timeText != null)
         {
             int totalSeconds = Mathf.FloorToInt(elapsedTime);
@@ -119,15 +119,15 @@ public class ArrivalPanelUI : MonoBehaviour
 
             if (hours > 0)
             {
-                timeText.text = $"{hours}½Ã°£ {minutes}ºĞ";
+                timeText.text = $"{hours}ì‹œê°„ {minutes}ë¶„";
             }
             else if (minutes > 0)
             {
-                timeText.text = $"{minutes}ºĞ {seconds}ÃÊ";
+                timeText.text = $"{minutes}ë¶„ {seconds}ì´ˆ";
             }
             else
             {
-                timeText.text = $"{seconds}ÃÊ";
+                timeText.text = $"{seconds}ì´ˆ";
             }
         }
     }

@@ -405,7 +405,7 @@ public class WavUtility
             case 3:
                 return "IEEE";
             case 7:
-                return "¥ì-law";
+                return "Î¼-law";
             case 65534:
                 return "WaveFormatExtensable";
             default:

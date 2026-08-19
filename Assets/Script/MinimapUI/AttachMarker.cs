@@ -2,32 +2,32 @@ using UnityEngine;
 
 public class AttachMarker : MonoBehaviour
 {
-    [Header("¹Ì´Ï¸Ê¿¡ Ç¥½ÃÇÒ »¡°£ Á¡/È­»ìÇ¥ ÇÁ¸®ÆÕ")]
+    [Header("ë¯¸ë‹ˆë§µì— í‘œì‹œí•  ë¹¨ê°„ ì /í™”ì‚´í‘œ í”„ë¦¬íŒ¹")]
     public GameObject markerPrefab;
 
-    [Header("Ä«¸Ş¶ó ±âÁØ Ç¥½Ä À§Ä¡ Á¶Á¤")]
+    [Header("ì¹´ë©”ë¼ ê¸°ì¤€ í‘œì‹ ìœ„ì¹˜ ì¡°ì •")]
     public Vector3 offset = new Vector3(0, -0.5f, 0);
 
     void Start()
     {
-        // ¾À¿¡¼­ MainCamera ÅÂ±×¸¦ °¡Áø Ä«¸Ş¶ó Å½»ö
+        // ì”¬ì—ì„œ MainCamera íƒœê·¸ë¥¼ ê°€ì§„ ì¹´ë©”ë¼ íƒìƒ‰
         Camera mainCam = Camera.main;
 
         if (mainCam != null && markerPrefab != null)
         {
-            // ¸ŞÀÎ Ä«¸Ş¶óÀÇ ÀÚ½Ä(Child)À¸·Î Ç¥½Ä »ı¼º
+            // ë©”ì¸ ì¹´ë©”ë¼ì˜ ìì‹(Child)ìœ¼ë¡œ í‘œì‹ ìƒì„±
             GameObject marker = Instantiate(markerPrefab, mainCam.transform);
 
-            // ·ÎÄÃ À§Ä¡ ¹× È¸Àü°ª ¼³Á¤ (¹Ù´Ú¿¡ ³³ÀÛÇÏ°Ô ÆîÄ§)
+            // ë¡œì»¬ ìœ„ì¹˜ ë° íšŒì „ê°’ ì„¤ì • (ë°”ë‹¥ì— ë‚©ì‘í•˜ê²Œ í¼ì¹¨)
             marker.transform.localPosition = offset;
             marker.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
-            // ±â¿ïÀÓ ¹æÁö ½ºÅ©¸³Æ® ÀÚµ¿ Ãß°¡
+            // ê¸°ìš¸ì„ ë°©ì§€ ìŠ¤í¬ë¦½íŠ¸ ìë™ ì¶”ê°€
             marker.AddComponent<KeepMarkerFlat>();
         }
         else
         {
-            Debug.LogWarning("[AttachMarker] MainCamera ¶Ç´Â MarkerPrefabÀÌ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning("[AttachMarker] MainCamera ë˜ëŠ” MarkerPrefabì´ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         }
     }
 }

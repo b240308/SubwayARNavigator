@@ -8,9 +8,10 @@ public class ARPanelManager : MonoBehaviour
     public static ARPanelManager Instance;
 
     [Header("UI Panels")]   //b
-    public GameObject Canvas_Start; //b //½ÃÀÛ ÆĞ³Î Canvas
-    public GameObject Canvas_Voice; //b //À½¼º ÀÔ·Â ÆĞ³Î Canvas
-    public GameObject Canvas_Arrived; //b   // [Ãß°¡] µµÂø ¿Ï·á ÆĞ³Î Canvas
+    public GameObject Canvas_Start; //b //ì‹œì‘ íŒ¨ë„ Canvas
+    public GameObject Canvas_Voice; //b //ìŒì„± ì…ë ¥ íŒ¨ë„ Canvas
+    public GameObject Canvas_Arrived; //b   // [ì¶”ê°€] ë„ì°© ì™„ë£Œ íŒ¨ë„ Canvas
+    public GameObject[] Canvas_Facilities; //b   // [ì¶”ê°€] ì‹œì„¤ íŒ¨ë„ Canvas
 
     [Header("Facility UI Text")]    //b
     public TMP_Text titleText;
@@ -35,52 +36,53 @@ public class ARPanelManager : MonoBehaviour
         StartCoroutine(StartFlowSequence());
     }
 
-    // 1´Ü°è -> 2´Ü°è ÆĞ³Î ÀüÈ¯ Èå¸§ °ü¸® ÄÚ·çÆ¾
+    // 1ë‹¨ê³„ -> 2ë‹¨ê³„ íŒ¨ë„ ì „í™˜ íë¦„ ê´€ë¦¬ ì½”ë£¨í‹´
     private IEnumerator StartFlowSequence() //b
     {
-        // 1. ÃÊ±â ÆĞ³Î »óÅÂ ¼³Á¤
+        // 1. ì´ˆê¸° íŒ¨ë„ ìƒíƒœ ì„¤ì •
         if (Canvas_Start != null) Canvas_Start.SetActive(true);
         if (Canvas_Voice != null) Canvas_Voice.SetActive(false);
 
-        // 2. StartPanel 3ÃÊ°£ À¯Áö
+        // 2. StartPanel 3ì´ˆê°„ ìœ ì§€
         yield return new WaitForSeconds(5.0f);
 
-        // 3. StartPanel ²ô°í VoicePanel ÄÑ±â
+        // 3. StartPanel ë„ê³  VoicePanel ì¼œê¸°
         if (Canvas_Start != null) Canvas_Start.SetActive(false);
         if (Canvas_Voice != null) Canvas_Voice.SetActive(true);
 
-        // 4. VoiceInputManager¿¡ À½¼º ¾È³» ¹× ³ìÀ½ ½ÃÀÛ ¿äÃ»
+        // 4. VoiceInputManagerì— ìŒì„± ì•ˆë‚´ ë° ë…¹ìŒ ì‹œì‘ ìš”ì²­
         if (VoiceInputManager.Instance != null)
         {
             VoiceInputManager.Instance.StartVoiceGuidanceAndRecord();
         }
     }
 
-    // ±æ ¾È³» ´ä°è ÁøÀÔ ½Ã UI ÆĞ³ÎÀ» °¡·ÁÁÖ´Â ¸Ş¼­µå //b
+    // ê¸¸ ì•ˆë‚´ ë‹µê³„ ì§„ì… ì‹œ UI íŒ¨ë„ì„ ê°€ë ¤ì£¼ëŠ” ë©”ì„œë“œ //b
     public void HideVoicePanel()
     {
         if (Canvas_Voice != null) Canvas_Voice.SetActive(false);
         if (Canvas_Start != null) Canvas_Start.SetActive(false);
     }
 
-    // µµÂø ½Ã ¿ÜºÎ(°æ·Î/¾ŞÄ¿ ½ºÅ©¸³Æ®)¿¡¼­ È£ÃâÇÒ ÇÔ¼ö
+    // ë„ì°© ì‹œ ì™¸ë¶€(ê²½ë¡œ/ì•µì»¤ ìŠ¤í¬ë¦½íŠ¸)ì—ì„œ í˜¸ì¶œí•  í•¨ìˆ˜
     public void OnArrived()
     {
         StartCoroutine(ArrivedRoutine());
     }
 
-    // 3ÃÊ ´ë±â ÈÄ Canvas_Arrived ÄÑ´Â ÄÚ·çÆ¾
+    // 3ì´ˆ ëŒ€ê¸° í›„ Canvas_Arrived ì¼œëŠ” ì½”ë£¨í‹´
     private IEnumerator ArrivedRoutine()
     {
-        // 1. (ÇÊ¿ä ½Ã) ±âÁ¸ ¾È³» ÆĞ³ÎÀÌ³ª Voice ÆĞ³Î ²ô±â
+        // 1. (í•„ìš” ì‹œ) ê¸°ì¡´ ì•ˆë‚´ íŒ¨ë„ì´ë‚˜ Voice íŒ¨ë„ ë„ê¸°
         HideVoicePanel();
 
-        // 2. 3ÃÊ µ¿¾È ´ë±â (À½¼º ¾È³» Àç»ı & "¸ñÀûÁö¿¡ µµÂøÇß½À´Ï´Ù" ¹®±¸°¡ º¸ÀÌ´Â ½Ã°£)
+        // 2. 3ì´ˆ ë™ì•ˆ ëŒ€ê¸° (ìŒì„± ì•ˆë‚´ ì¬ìƒ & "ëª©ì ì§€ì— ë„ì°©í–ˆìŠµë‹ˆë‹¤" ë¬¸êµ¬ê°€ ë³´ì´ëŠ” ì‹œê°„)
         yield return new WaitForSeconds(3.0f);
 
-        // 3. Canvas_Arrived ÆĞ³Î È°¼ºÈ­
+        // 3. Canvas_Arrived íŒ¨ë„ í™œì„±í™”
         if (Canvas_Arrived != null)
         {
+            ShowCanvas_Facilities(false); // ì‹œì„¤ íŒ¨ë„ ìˆ¨ê¸°ê¸°
             Canvas_Arrived.SetActive(true);
         }
     }
@@ -90,7 +92,7 @@ public class ARPanelManager : MonoBehaviour
         if (loadingCoroutine != null)
             StopCoroutine(loadingCoroutine);
 
-        // ·Îµù ½ÃÀÛ ½Ã ¿¡·¯ ¸Ş½ÃÁö ÃÊ±âÈ­   //b
+        // ë¡œë”© ì‹œì‘ ì‹œ ì—ëŸ¬ ë©”ì‹œì§€ ì´ˆê¸°í™”   //b
         if (errorText != null) errorText.text = "";
 
         loadingCoroutine = StartCoroutine(LoadingAnim());
@@ -111,23 +113,23 @@ public class ARPanelManager : MonoBehaviour
         while (true)
         {
             dot = (dot + 1) % 4;
-            titleText.text = $"°Ë»ö Áß{new string('.', dot)}";
+            titleText.text = $"ê²€ìƒ‰ ì¤‘{new string('.', dot)}";
             yield return new WaitForSeconds(0.4f);
         }
     }
 
-    // Á¤»ó µ¥ÀÌÅÍ Ãâ·Â ½Ã //b
+    // ì •ìƒ ë°ì´í„° ì¶œë ¥ ì‹œ //b
     public void UpdatePanel(List<FacilityInfo> list)
     {
         StopLoading();
 
         if (list == null || list.Count == 0)
         {
-            ShowError("½Ã¼³ ¾øÀ½");
+            ShowError("ì‹œì„¤ ì—†ìŒ");
             return;
         }
 
-        // Á¤»ó µ¥ÀÌÅÍ°¡ µ¹¾Æ¿ÔÀ¸¹Ç·Î ¿¡·¯ ÅØ½ºÆ®´Â ¼û±è (ºó ¹®ÀÚ¿­)    //b
+        // ì •ìƒ ë°ì´í„°ê°€ ëŒì•„ì™”ìœ¼ë¯€ë¡œ ì—ëŸ¬ í…ìŠ¤íŠ¸ëŠ” ìˆ¨ê¹€ (ë¹ˆ ë¬¸ìì—´)    //b
         if (errorText != null) errorText.text = "";
 
         string station = list[0].stationName;
@@ -143,11 +145,11 @@ public class ARPanelManager : MonoBehaviour
             if (f.facilityType == "TOI") toilets.Add(f.facilityName);
         }
 
-        // Á¤»ó Á¤º¸ ÀÔ·Â
-        if (titleText != null) titleText.text = $"{station} {exit}¹ø Ãâ±¸";
-        if (elevatorText != null) elevatorText.text = elv ? "¿¤¸®º£ÀÌÅÍ O" : "¿¤¸®º£ÀÌÅÍ X";
-        if (escalatorText != null) escalatorText.text = esc ? "¿¡½ºÄÃ·¹ÀÌÅÍ O" : "¿¡½ºÄÃ·¹ÀÌÅÍ X";
-        if (toiletText != null) toiletText.text = toilets.Count > 0 ? toilets[0] : "È­Àå½Ç ¾øÀ½";
+        // ì •ìƒ ì •ë³´ ì…ë ¥
+        if (titleText != null) titleText.text = $"{station} {exit}ë²ˆ ì¶œêµ¬";
+        if (elevatorText != null) elevatorText.text = elv ? "ì—˜ë¦¬ë² ì´í„° O" : "ì—˜ë¦¬ë² ì´í„° X";
+        if (escalatorText != null) escalatorText.text = esc ? "ì—ìŠ¤ì»¬ë ˆì´í„° O" : "ì—ìŠ¤ì»¬ë ˆì´í„° X";
+        if (toiletText != null) toiletText.text = toilets.Count > 0 ? toilets[0] : "í™”ì¥ì‹¤ ì—†ìŒ";
         //if (congestionText != null) congestionText.text = "";
     }
 
@@ -155,14 +157,14 @@ public class ARPanelManager : MonoBehaviour
     {
         // errorText.text = msg;    //d
 
-        // ¿¡·¯°¡ ³µÀ¸¹Ç·Î ÀÏ¹İ ½Ã¼³ ÅØ½ºÆ®µéÀº ÀüºÎ Áö¿ò   //b
+        // ì—ëŸ¬ê°€ ë‚¬ìœ¼ë¯€ë¡œ ì¼ë°˜ ì‹œì„¤ í…ìŠ¤íŠ¸ë“¤ì€ ì „ë¶€ ì§€ì›€   //b
         if (titleText != null) titleText.text = "";
         if (elevatorText != null) elevatorText.text = "";
         if (escalatorText != null) escalatorText.text = "";
         if (toiletText != null) toiletText.text = "";
         //if (congestionText != null) congestionText.text = "";
 
-        // ¿¡·¯ ÅØ½ºÆ®¸¸ Ç¥½Ã   //b
+        // ì—ëŸ¬ í…ìŠ¤íŠ¸ë§Œ í‘œì‹œ   //b
         if (errorText != null) errorText.text = msg;
     }
 
@@ -174,5 +176,16 @@ public class ARPanelManager : MonoBehaviour
         if (toiletText != null) toiletText.text = "";
         //if (congestionText != null) congestionText.text = "";
         if (errorText != null) errorText.text = "";
+    }
+
+    public void ShowCanvas_Facilities(bool isActive)
+    {
+        if (Canvas_Facilities != null)
+        {
+            foreach (var canvas in Canvas_Facilities)
+            {
+                if (canvas != null) canvas.SetActive(isActive);
+            }
+        }
     }
 }

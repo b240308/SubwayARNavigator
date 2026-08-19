@@ -6,7 +6,7 @@ public class KeepMarkerFlat : MonoBehaviour
     {
         if (transform.parent == null) return;
 
-        // Ä«¸Ş¶óÀÇ ÁÂ¿ì È¸Àü(YÃà)¸¸ °¡Á®¿À°í, À§¾Æ·¡ ±â¿ïÀÓ(X, ZÃà)Àº 90µµ·Î °íÁ¤
+        // ì¹´ë©”ë¼ì˜ ì¢Œìš° íšŒì „(Yì¶•)ë§Œ ê°€ì ¸ì˜¤ê³ , ìœ„ì•„ë˜ ê¸°ìš¸ì„(X, Zì¶•)ì€ 90ë„ë¡œ ê³ ì •
         float parentYRotation = transform.parent.eulerAngles.y;
         transform.rotation = Quaternion.Euler(90f, parentYRotation, 0f);
     }

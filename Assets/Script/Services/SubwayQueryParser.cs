@@ -2,56 +2,56 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 
 /// <summary>
-/// STT ÅØ½ºÆ®¿¡¼­ ¿ª¸í°ú Ãâ±¸ ¹øÈ£¸¦ ÃßÃâ
-/// ¿¹:
-/// "½Åµµ¸² 2¹ø Ãâ±¸"
-/// ¡æ station="½Åµµ¸²", exit=2
+/// STT í…ìŠ¤íŠ¸ì—ì„œ ì—­ëª…ê³¼ ì¶œêµ¬ ë²ˆí˜¸ë¥¼ ì¶”ì¶œ
+/// ì˜ˆ:
+/// "ì‹ ë„ë¦¼ 2ë²ˆ ì¶œêµ¬"
+/// â†’ station="ì‹ ë„ë¦¼", exit=2
 /// </summary>
 public static class SubwayQueryParser
 {
     /// <summary>
-    /// ¿ª¸í + Ãâ±¸¹øÈ£ ÆÄ½Ì
+    /// ì—­ëª… + ì¶œêµ¬ë²ˆí˜¸ íŒŒì‹±
     /// </summary>
     public static (string station, int exit) Parse(string input)
     {
-        Debug.Log($"[Parser ÀÔ·Â°ª] '{input}'");
+        Debug.Log($"[Parser ì…ë ¥ê°’] '{input}'");
 
         if (string.IsNullOrEmpty(input))
         {
-            Debug.LogError("[Parser] ÀÔ·Â°ª NULL");
+            Debug.LogError("[Parser] ì…ë ¥ê°’ NULL");
             return ("", -1);
         }
 
         input = input.Trim();
 
-        // Ãâ±¸ ¹øÈ£ ÀÖ´Â °æ¿ì: "»óÀÎ¿ª 2¹ø Ãâ±¸"
-        Match matchFull = Regex.Match(input, @"(.+?)\s*(\d+)\s*¹ø?\s*Ãâ±¸");
+        // ì¶œêµ¬ ë²ˆí˜¸ ìˆëŠ” ê²½ìš°: "ìƒì¸ì—­ 2ë²ˆ ì¶œêµ¬"
+        Match matchFull = Regex.Match(input, @"(.+?)\s*(\d+)\s*ë²ˆ?\s*ì¶œêµ¬");
         if (matchFull.Success)
         {
-            string station = matchFull.Groups[1].Value.Trim().Replace("¿ª", "").Trim();
+            string station = matchFull.Groups[1].Value.Trim().Replace("ì—­", "").Trim();
             int.TryParse(matchFull.Groups[2].Value, out int exit);
-            Debug.Log($"[Parser ¼º°ø] station={station}, exit={exit}");
+            Debug.Log($"[Parser ì„±ê³µ] station={station}, exit={exit}");
             return (station, exit);
         }
 
-        // ¿ª ÀÌ¸§¸¸ ÀÖ´Â °æ¿ì: "»óÀÎ¿ª"
-        Match matchStation = Regex.Match(input, @"(.+?)¿ª");
+        // ì—­ ì´ë¦„ë§Œ ìˆëŠ” ê²½ìš°: "ìƒì¸ì—­"
+        Match matchStation = Regex.Match(input, @"(.+?)ì—­");
         if (matchStation.Success)
         {
             string station = matchStation.Groups[1].Value.Trim();
-            Debug.Log($"[Parser ¼º°ø] station={station}, exit=0");
+            Debug.Log($"[Parser ì„±ê³µ] station={station}, exit=0");
             return (station, 0);
         }
 
-        Debug.LogError("[Parser] Á¤±Ô½Ä ¸ÅÄª ½ÇÆĞ");
+        Debug.LogError("[Parser] ì •ê·œì‹ ë§¤ì¹­ ì‹¤íŒ¨");
         return ("", -1);
     }
 
     /// <summary>
-    /// °á°ú Æ÷¸Ë
+    /// ê²°ê³¼ í¬ë§·
     /// </summary>
     public static string FormatResult(string station, int exit)
     {
-        return $"{station}¿ª {exit}¹ø Ãâ±¸";
+        return $"{station}ì—­ {exit}ë²ˆ ì¶œêµ¬";
     }
 }

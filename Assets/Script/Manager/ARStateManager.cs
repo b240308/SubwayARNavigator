@@ -33,7 +33,7 @@ public class ARStateManager : MonoBehaviour
 
         isReady = true;
 
-        DebugUI.Instance?.Log("AR READY ¡æ UNLOCKED");
+        DebugUI.Instance?.Log("AR READY â†’ UNLOCKED");
 
         OnARReady?.Invoke();
     }

@@ -205,7 +205,6 @@ public class VoiceInputManager : MonoBehaviour
         {
             UpdateStatus("녹음 실패 (재시도 초과)", Color.red);
             isRecording = false;
-            yield break;
         }
 
         byte[] wavData = WavUtility.FromAudioClip(recordedClip);
@@ -306,7 +305,10 @@ public class VoiceInputManager : MonoBehaviour
             yield return StartCoroutine(CallGoogleSTT(wavData));
 
             if (sttSuccess)
+            {
+                ///
                 yield break;
+            }
 
             retry++;
 
@@ -398,6 +400,7 @@ public class VoiceInputManager : MonoBehaviour
 
             // 역명 파싱 성공시 Voice 패널을 숨겨 AR 화면 전환  //b
             ARPanelManager.Instance?.HideVoicePanel();
+            ARPanelManager.Instance?.ShowCanvas_Facilities(true);
 
             // 편의시설 - 출구 번호 있을 때만
             if (exit > 0)

@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 public class NaverGeocodingTest : MonoBehaviour
 {
-    public string kakaoRestApiKey; // ÀÎ½ºÆåÅÍ¿¡¼­ ÇÒ´ç
+    public string kakaoRestApiKey; // ì¸ìŠ¤í™í„°ì—ì„œ í• ë‹¹
     public NaverDirectionTest directionTest;
 
     public void Geocode(string query)

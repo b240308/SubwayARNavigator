@@ -38,23 +38,23 @@ public class ARSystemDebugger : MonoBehaviour
         if (earthManager == null)
             return;
 
-        // 1. SESSION »óÅÂ º¯È­¸¸ Ãâ·Â
+        // 1. SESSION ìƒíƒœ ë³€í™”ë§Œ ì¶œë ¥
         if (ARSession.state != lastSessionState)
         {
-            DebugUI.Instance?.Log("SESSION ¡æ " + ARSession.state);
+            DebugUI.Instance?.Log("SESSION â†’ " + ARSession.state);
             lastSessionState = ARSession.state;
         }
 
-        // 2. EARTH »óÅÂ º¯È­¸¸ Ãâ·Â
+        // 2. EARTH ìƒíƒœ ë³€í™”ë§Œ ì¶œë ¥
         var earthState = earthManager.EarthTrackingState;
 
         if (earthState != lastEarthState)
         {
-            DebugUI.Instance?.Log("EARTH ¡æ " + earthState);
+            DebugUI.Instance?.Log("EARTH â†’ " + earthState);
             lastEarthState = earthState;
         }
 
-        // 3. POSE ÁØºñ »óÅÂ º¯È­¸¸ Ãâ·Â
+        // 3. POSE ì¤€ë¹„ ìƒíƒœ ë³€í™”ë§Œ ì¶œë ¥
         var pose = earthManager.CameraGeospatialPose;
 
         bool poseReady =
@@ -63,7 +63,7 @@ public class ARSystemDebugger : MonoBehaviour
 
         if (poseReady != poseReadyLast)
         {
-            DebugUI.Instance?.Log("POSE READY ¡æ " + poseReady);
+            DebugUI.Instance?.Log("POSE READY â†’ " + poseReady);
             poseReadyLast = poseReady;
         }
     }

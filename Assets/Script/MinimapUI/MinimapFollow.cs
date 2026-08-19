@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class MinimapFollow : MonoBehaviour
 {
-    [Header("ÃßÀû ´ë»ó (AR Main Camera)")]
+    [Header("ì¶”ì  ëŒ€ìƒ (AR Main Camera)")]
     public Transform player;
 
-    [Header("¹Ì´Ï¸Ê ³ôÀÌ ¼³Á¤")]
+    [Header("ë¯¸ë‹ˆë§µ ë†’ì´ ì„¤ì •")]
     public float cameraHeight = 20f;
 
     void LateUpdate()
     {
         if (player == null) return;
 
-        // ³» À§Ä¡ÀÇ X, Z Æò¸é ÁÂÇ¥¸¸ ÃßÀûÇÏ°í, ³ôÀÌ(Y)´Â ÁöÁ¤ÇÑ °ªÀ¸·Î °íÁ¤
+        // ë‚´ ìœ„ì¹˜ì˜ X, Z í‰ë©´ ì¢Œí‘œë§Œ ì¶”ì í•˜ê³ , ë†’ì´(Y)ëŠ” ì§€ì •í•œ ê°’ìœ¼ë¡œ ê³ ì •
         Vector3 newPosition = player.position;
         newPosition.y = player.position.y + cameraHeight;
         transform.position = newPosition;

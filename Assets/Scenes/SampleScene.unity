@@ -503,7 +503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &63266218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &85854339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1189,7 +1189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &335243038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3254,7 +3254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1219217620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4443,7 +4443,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1712909387}
   - component: {fileID: 1712909386}
-  - component: {fileID: 1712909385}
   - component: {fileID: 1712909384}
   m_Layer: 0
   m_Name: MinimapCamera
@@ -4451,7 +4450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1712909384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4466,14 +4465,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 40919615}
   cameraHeight: 20
---- !u!81 &1712909385
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712909383}
-  m_Enabled: 1
 --- !u!20 &1712909386
 Camera:
   m_ObjectHideFlags: 0
@@ -4872,6 +4863,11 @@ MonoBehaviour:
   Canvas_Start: {fileID: 85854338}
   Canvas_Voice: {fileID: 601892308}
   Canvas_Arrived: {fileID: 1020124906}
+  Canvas_Facilities:
+  - {fileID: 1219217619}
+  - {fileID: 1712909383}
+  - {fileID: 335243037}
+  - {fileID: 63266217}
   titleText: {fileID: 1518043519}
   elevatorText: {fileID: 608786188}
   escalatorText: {fileID: 1251364169}

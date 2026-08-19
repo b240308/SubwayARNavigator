@@ -20,7 +20,7 @@ public class APIKeyLoader : MonoBehaviour
 
         if (txt == null)
         {
-            Debug.LogError("[APIKeyLoader] APIKeys.json ¾øÀ½ (Resources Æú´õ È®ÀÎ)");
+            Debug.LogError("[APIKeyLoader] APIKeys.json ì—†ìŒ (Resources í´ë” í™•ì¸)");
             return;
         }
 
@@ -32,7 +32,7 @@ public class APIKeyLoader : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogError("[APIKeyLoader] JSON ÆÄ½Ì ½ÇÆĞ: " + e.Message);
+            Debug.LogError("[APIKeyLoader] JSON íŒŒì‹± ì‹¤íŒ¨: " + e.Message);
             return;
         }
 
@@ -42,7 +42,7 @@ public class APIKeyLoader : MonoBehaviour
         SeoulData = GetValue(data, "seoulData");
         GoogleMaps = GetValue(data, "googleMaps");
 
-        Debug.Log("[APIKeyLoader] Å° ·Îµå ¿Ï·á");
+        Debug.Log("[APIKeyLoader] í‚¤ ë¡œë“œ ì™„ë£Œ");
     }
 
     private string GetValue(Dictionary<string, string> data, string key)
@@ -50,7 +50,7 @@ public class APIKeyLoader : MonoBehaviour
         if (data != null && data.ContainsKey(key))
             return data[key];
 
-        Debug.LogWarning($"[APIKeyLoader] Å° ¾øÀ½: {key}");
+        Debug.LogWarning($"[APIKeyLoader] í‚¤ ì—†ìŒ: {key}");
         return "";
     }
 }
