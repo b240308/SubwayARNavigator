@@ -45,7 +45,7 @@ public class FacilityDataService : MonoBehaviour
             if (request.result != UnityWebRequest.Result.Success)
             {
                 ARPanelManager.Instance?.StopLoading();
-                ARPanelManager.Instance?.ShowError("API 실패");
+                ARPanelManager.Instance?.ShowError("API 실패", station, exitNumber);
                 Debug.LogError($"API 실패: {request.error}");
                 yield break;
             }
@@ -102,11 +102,12 @@ public class FacilityDataService : MonoBehaviour
 
             Debug.Log($"[FacilityDataService] 필터링 후 facilityList 개수: {facilityList.Count}");
 
-            ARPanelManager.Instance?.UpdatePanel(facilityList);
+            ARPanelManager.Instance?.UpdatePanel(station, exitNumber, facilityList);
         }
         catch (System.Exception e)
         {
             ARPanelManager.Instance?.StopLoading();
+            ARPanelManager.Instance?.ShowError("파싱 실패", station, exitNumber);
             Debug.LogError($"XML 파싱 실패: {e.Message}");
         }
     }

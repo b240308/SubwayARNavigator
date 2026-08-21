@@ -122,21 +122,18 @@ public class ARPanelManager : MonoBehaviour
     }
 
     // 정상 데이터 출력 시 //b
-    public void UpdatePanel(List<FacilityInfo> list)
+    public void UpdatePanel(string station, int exit, List<FacilityInfo> list)
     {
         StopLoading();
 
         if (list == null || list.Count == 0)
         {
-            ShowError("시설 없음");
+            ShowError("시설 없음", station, exit);
             return;
         }
 
         // 정상 데이터가 돌아왔으므로 에러 텍스트는 숨김 (빈 문자열)    //b
         if (errorText != null) errorText.text = "";
-
-        string station = list[0].stationName;
-        int exit = list[0].exitNumber;
 
         bool elv = false, esc = false;
         List<string> toilets = new();
@@ -156,12 +153,11 @@ public class ARPanelManager : MonoBehaviour
         if (congestionText != null) congestionText.text = "";
     }
 
-    public void ShowError(string msg)
+    // 에러가 나도 역/출구 정보는 유지하고 싶어서 station, exit를 받아 titleText는 항상 채움   //b
+    public void ShowError(string msg, string station, int exit)
     {
-        // errorText.text = msg;    //d
-
-        // 에러가 났으므로 일반 시설 텍스트들은 전부 지움   //b
-        if (titleText != null) titleText.text = "";
+        // 에러가 났어도 어떤 역/출구를 찾고 있었는지는 계속 보여줌   //b
+        if (titleText != null) titleText.text = $"{station} {exit}번 출구";
         if (elevatorText != null) elevatorText.text = "";
         if (escalatorText != null) escalatorText.text = "";
         if (toiletText != null) toiletText.text = "";
