@@ -18,7 +18,7 @@ public class ARPanelManager : MonoBehaviour
     public TMP_Text elevatorText;
     public TMP_Text escalatorText;
     public TMP_Text toiletText;
-    //public TMP_Text congestionText;
+    public TMP_Text congestionText;
     public TMP_Text errorText;
 
     private Coroutine loadingCoroutine;
@@ -153,7 +153,7 @@ public class ARPanelManager : MonoBehaviour
         if (elevatorText != null) elevatorText.text = elv ? "엘리베이터 O" : "엘리베이터 X";
         if (escalatorText != null) escalatorText.text = esc ? "에스컬레이터 O" : "에스컬레이터 X";
         if (toiletText != null) toiletText.text = toilets.Count > 0 ? toilets[0] : "화장실 없음";
-        //if (congestionText != null) congestionText.text = "";
+        if (congestionText != null) congestionText.text = "";
     }
 
     public void ShowError(string msg)
@@ -165,7 +165,7 @@ public class ARPanelManager : MonoBehaviour
         if (elevatorText != null) elevatorText.text = "";
         if (escalatorText != null) escalatorText.text = "";
         if (toiletText != null) toiletText.text = "";
-        //if (congestionText != null) congestionText.text = "";
+        if (congestionText != null) congestionText.text = "";
 
         // 에러 텍스트만 표시   //b
         if (errorText != null)
@@ -181,7 +181,7 @@ public class ARPanelManager : MonoBehaviour
         if (elevatorText != null) elevatorText.text = "";
         if (escalatorText != null) escalatorText.text = "";
         if (toiletText != null) toiletText.text = "";
-        //if (congestionText != null) congestionText.text = "";
+        if (congestionText != null) congestionText.text = "";
         if (errorText != null)
         {
             errorText.text = "";

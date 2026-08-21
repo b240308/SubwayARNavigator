@@ -706,7 +706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &104795761
 RectTransform:
   m_ObjectHideFlags: 0
@@ -723,7 +723,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -104.1}
+  m_AnchoredPosition: {x: 0, y: -145.63}
   m_SizeDelta: {x: 290, y: 41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &104795762
@@ -1536,7 +1536,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: "\uC624\uB978\uCABD\uC73C\uB85C \uD68C\uC804\uD558\uC138\uC694"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5be1437e86cad394c9d47d048da09af5, type: 2}
   m_sharedMaterial: {fileID: 1719378577634190635, guid: 5be1437e86cad394c9d47d048da09af5, type: 2}
@@ -2767,6 +2767,7 @@ GameObject:
   - component: {fileID: 988798713}
   - component: {fileID: 988798712}
   - component: {fileID: 988798716}
+  - component: {fileID: 988798717}
   m_Layer: 0
   m_Name: VoiceInputManager
   m_TagString: Untagged
@@ -2960,6 +2961,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &988798717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988798709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb60e9a3e6c83d4590219eecccae43f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serviceKey: 3f684bc8bea96598dbb00fac08de56db2ff5fc1cc7b4ef8be6f414a6a2452715
 --- !u!1 &1020124906
 GameObject:
   m_ObjectHideFlags: 0
@@ -3254,7 +3268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1219217620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4871,6 +4885,7 @@ MonoBehaviour:
   elevatorText: {fileID: 608786188}
   escalatorText: {fileID: 1251364169}
   toiletText: {fileID: 1713274044}
+  congestionText: {fileID: 104795762}
   errorText: {fileID: 37820681}
 --- !u!4 &1897303187
 Transform:
