@@ -43,8 +43,8 @@ public class ARPanelManager : MonoBehaviour
         if (Canvas_Start != null) Canvas_Start.SetActive(true);
         if (Canvas_Voice != null) Canvas_Voice.SetActive(false);
 
-        // 2. StartPanel 3초간 유지
-        yield return new WaitForSeconds(5.0f);
+        // 2. StartPanel 4초간 유지
+        yield return new WaitForSeconds(4.0f);
 
         // 3. StartPanel 끄고 VoicePanel 켜기
         if (Canvas_Start != null) Canvas_Start.SetActive(false);
@@ -146,7 +146,7 @@ public class ARPanelManager : MonoBehaviour
         }
 
         // 정상 정보 입력
-        if (titleText != null) titleText.text = $"{station} {exit}번 출구";
+        if (titleText != null) titleText.text = $"{station}역 {exit}번 출구";
         if (elevatorText != null) elevatorText.text = elv ? "엘리베이터 O" : "엘리베이터 X";
         if (escalatorText != null) escalatorText.text = esc ? "에스컬레이터 O" : "에스컬레이터 X";
         if (toiletText != null) toiletText.text = toilets.Count > 0 ? toilets[0] : "화장실 없음";
@@ -157,7 +157,7 @@ public class ARPanelManager : MonoBehaviour
     public void ShowError(string msg, string station, int exit)
     {
         // 에러가 났어도 어떤 역/출구를 찾고 있었는지는 계속 보여줌   //b
-        if (titleText != null) titleText.text = $"{station} {exit}번 출구";
+        if (titleText != null) titleText.text = $"{station}역 {exit}번 출구";
         if (elevatorText != null) elevatorText.text = "";
         if (escalatorText != null) escalatorText.text = "";
         if (toiletText != null) toiletText.text = "";
