@@ -44,7 +44,7 @@ public class ArrivalPanelUI : MonoBehaviour
         }
 
         // 백업용 자동 시작
-        StartTracking();
+        //StartTracking();
     }
 
     /// <summary>
@@ -71,6 +71,12 @@ public class ArrivalPanelUI : MonoBehaviour
         {
             lastPosition = cameraTransform.position;
         }
+
+        if (cameraTransform != null)    //b
+        {
+            lastPosition = cameraTransform.position;
+        }
+
         startTime = Time.time;
         totalDistance = 0f;
         isTracking = true;

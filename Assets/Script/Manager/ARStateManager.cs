@@ -28,13 +28,22 @@ public class ARStateManager : MonoBehaviour
 
         var pose = earthManager.CameraGeospatialPose;
 
-        if (pose.HorizontalAccuracy <= 0 || pose.OrientationYawAccuracy <= 0)
-            return;
+        //if (pose.HorizontalAccuracy <= 0 || pose.OrientationYawAccuracy <= 0)
+        //    return;
 
-        isReady = true;
+        //isReady = true;
+        //
+        //DebugUI.Instance?.Log("AR READY → UNLOCKED");
+        //
+        //OnARReady?.Invoke();
 
-        DebugUI.Instance?.Log("AR READY → UNLOCKED");
+        // 정확도 수치가 유효하게 측정되고 있는지(0보다 큰 정상 값인지) 체크 //b
+        if (pose.HorizontalAccuracy > 0 && pose.OrientationYawAccuracy > 0)
+        {
+            isReady = true;
+            DebugUI.Instance?.Log("AR READY → UNLOCKED");
+            OnARReady?.Invoke();
+        }
 
-        OnARReady?.Invoke();
     }
 }

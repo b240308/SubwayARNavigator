@@ -2436,7 +2436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e29881cc6e9bf5c4c8cae1afc82c0bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  markerPrefab: {fileID: 0}
+  markerPrefab: {fileID: 229590181}
   offset: {x: 0, y: -0.5, z: 0}
 --- !u!1 &876436421
 GameObject:
